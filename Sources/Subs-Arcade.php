@@ -1,11 +1,24 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+/**********************************************************************************
+* Subs-Arcade.php                                                                 *
+***********************************************************************************
+* SMF Arcade                                                                      *
+* =============================================================================== *
+* Software Version:           SMF Arcade 2.5 RC1.1                                *
+* Software by:                Niko Pahajoki (http://www.madjoki.com)              *
+* Copyright 2004-2009 by:     Niko Pahajoki (http://www.madjoki.com)              *
+* Support, News, Updates at:  http://www.smfarcade.info                           *
+***********************************************************************************
+* This program is free software; you may redistribute it and/or modify it under   *
+* the terms of the provided license as published by Simple Machines LLC.          *
+*                                                                                 *
+* This program is distributed in the hope that it is and will be useful, but      *
+* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
+* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
+*                                                                                 *
+* See the "license.txt" file for details of the Simple Machines license.          *
+* The latest version can always be found at http://www.simplemachines.org.        *
+**********************************************************************************/
 
 if (!defined('SMF'))
 	die('Hacking attempt...');
@@ -1271,51 +1284,49 @@ function SaveScore(&$game, $member, $score)
 
 		if ($scoreCount < $scoreLimit)
 			$canSave = true;
-		else
-                {
-			while ($scoreCount >= $scoreLimit)
+		elseif ($scoreCount == $scoreLimit)
+		{
+			$request = $smcFunc['db_query']('', '
+				SELECT id_score, score, position
+				FROM {db_prefix}arcade_scores
+				WHERE id_game = {int:game}
+					AND id_member = {int:member}
+				ORDER BY score ' . ($reverse ? 'DESC' : 'ASC'),
+				array(
+					'game' => $game['id'],
+					'member' => $member['id']
+				)
+			);
+
+			list ($old_id_score, $oldScore, $lPosition) = $smcFunc['db_fetch_row']($request);
+
+			if (!$reverse)
+				$deleteOld = $oldScore < $score['score'];
+			else
+				$deleteOld = $oldScore > $score['score'];
+
+			if (!$deleteOld)
+			{
+				$canSave = false;
+				$error = 'arcade_scores_limit';
+			}
+			else
 			{
 				$request = $smcFunc['db_query']('', '
-					SELECT id_score, score, position
-					FROM {db_prefix}arcade_scores
-					WHERE id_game = {int:game}
-					    	AND id_member = {int:member}
-					ORDER BY score ' . ($reverse ? 'DESC' : 'ASC'),
+					DELETE FROM {db_prefix}arcade_scores
+					WHERE id_score = {int:score}',
 					array(
-						'game' => $game['id'],
-						'member' => $member['id']
+						'score' => $old_id_score
 					)
 				);
 
-				list ($old_id_score, $oldScore, $lPosition) = $smcFunc['db_fetch_row']($request);
-
-				if (!$reverse)
-					$deleteOld = $oldScore < $score['score'];
-				else
-					$deleteOld = $oldScore > $score['score'];
-
-				if (!$deleteOld)
-				{
-					$canSave = false;
-					$error = 'arcade_scores_limit';
-					
-					break;
-				}
-				else
-				{
-					$request = $smcFunc['db_query']('', '
-						DELETE FROM {db_prefix}arcade_scores
-						WHERE id_score = {int:score}',
-						array(
-							'score' => $old_id_score
-						)
-					);
-
-					updatePositions($game, $lPosition, '- 1');
-					
-					$scoreCount--;
-				}
+				updatePositions($game, $lPosition, '- 1');
 			}
+		}
+		else
+		{
+			$canSave = false;
+			$error = 'arcade_scores_limit';
 		}
 	}
 
@@ -1925,19 +1936,14 @@ function matchAddPlayers($id_match, $players)
 				'match_url' => $scripturl . '?action=arcade;match=' . $id_match,
 				'players' => $sendPms,
 			)
-		);
-
-	$smcFunc['db_insert']('insert',
-		'{db_prefix}arcade_matches_players',
-		array(
-			'id_match' => 'int',
-			'id_member' => 'int',
-			'status' => 'int',
-			'player_data' => 'string',
-		),
-		$rows,
-		array()
-	);
+		);	
+	foreach ($rows as $rowx)
+	{	
+		$smcFunc['db_query']('', 'DELETE FROM {db_prefix}arcade_matches_players WHERE id_match LIKE {int:matchid}',
+														array('matchid' => (int)$rowx[0]));
+		$smcFunc['db_query']('', "INSERT INTO {db_prefix}arcade_matches_players (`id_match`, `id_member`, `status`, `player_data`) 
+							VALUES ({int:matchid} , {int:member}, {int:acstat}, false)",array('matchid' => (int)$rowx[0], 'member' => (int)$rowx[1], 'acstat' => (int)$rowx[2],));
+	}														
 
 	unset($rows);
 

@@ -1,11 +1,5 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+// Version: 2.5 RC1.1C; ArcadeList
 
 function template_arcade_list()
 {
@@ -43,24 +37,24 @@ function template_arcade_list()
 		<div class="game_table">
 			<table cellspacing="0" class="table_grid">
 				<thead>
-					<tr  class="catbg">';
+					<tr>';
 
 	// Is there games?
 	if (!empty($context['arcade']['games']))
 	{
 		echo '
 
-						<th scope="col" class="first_th"></th>
-						<th scope="col"><a href="', $scripturl, '?action=arcade;sort=name', $context['sort_by'] == 'name' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['arcade_game_name'], $context['sort_by'] == 'name' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a></th>', !$user_info['is_guest'] ? '
-						<th scope="col"><a href="' . $scripturl . '?action=arcade;sort=myscore' . ($context['sort_by'] == 'myscore' && $context['sort_direction'] == 'up' ? ';desc' : '') . '">' . $txt['arcade_personal_best'] . ($context['sort_by'] == 'myscore' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '') . '</a></th>' : '', '
-						<th scope="col" class="last_th"><a href="', $scripturl, '?action=arcade;sort=champion', $context['sort_by'] == 'champion' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['arcade_champion'], $context['sort_by'] == 'champion' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a></th>';
+						<th scope="col" class="smalltext first_th"></th>
+						<th scope="col" class="smalltext"><a href="', $scripturl, '?action=arcade;sort=name', $context['sort_by'] == 'name' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['arcade_game_name'], $context['sort_by'] == 'name' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a></th>', !$user_info['is_guest'] ? '
+						<th scope="col" class="smalltext"><a href="' . $scripturl . '?action=arcade;sort=myscore' . ($context['sort_by'] == 'myscore' && $context['sort_direction'] == 'up' ? ';desc' : '') . '">' . $txt['arcade_personal_best'] . ($context['sort_by'] == 'myscore' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '') . '</a></th>' : '', '
+						<th scope="col" class="smalltext last_th"><a href="', $scripturl, '?action=arcade;sort=champion', $context['sort_by'] == 'champion' && $context['sort_direction'] == 'up' ? ';desc' : '', '">', $txt['arcade_champion'], $context['sort_by'] == 'champion' ? ' <img src="' . $settings['images_url'] . '/sort_' . $context['sort_direction'] . '.gif" alt="" />' : '', '</a></th>';
 	}
 	else
 	{
 		echo '
-						<th scope="col" class="first_th" width="8%">&nbsp;</th>
+						<th scope="col" class="smalltext first_th" width="8%">&nbsp;</th>
 						<th class="smalltext" colspan="2"><strong>', $txt['arcade_no_games'], '</strong></th>
-						<th scope="col" class="last_th" width="8%">&nbsp;</th>';
+						<th scope="col" class="smalltext last_th" width="8%">&nbsp;</th>';
 	}
 
 	echo '
@@ -107,7 +101,7 @@ function template_arcade_list()
 
 		// Rating
 		if ($game['rating2'] > 0)
-			echo str_repeat('<img src="' . $settings['images_url'] . '/arcade_star.gif" alt="*" />' , $game['rating2']), str_repeat('<img src="' . $settings['images_url'] . '/arcade_star2.gif" alt="" />' , 5 - $game['rating2']), '<br />';
+			echo str_repeat('<img src="' . $settings['images_url'] . '/arcade_star.gif" alt="*" />' , $game['rating2']), str_repeat('<img src="' . $settings['images_url'] . '/star2.gif" alt="" />' , 5 - $game['rating2']), '<br />';
 
 		// Category
 		if (!empty($game['category']['name']))
@@ -159,16 +153,18 @@ function template_arcade_list()
 		echo '
 		<span class="clear upperframe"><span></span></span>
 		<div class="roundframe"><div class="innerframe">
-			<div class="cat_bar">
-				<h3 class="catbg">
-					<img class="icon" id="upshrink_arcade_ic" src="', $settings['images_url'], '/collapse.gif" alt="*" title="', $txt['upshrink_description'], '" style="display: none;" />
-					', $txt['arcade_info_center'], '
-				</h3>
-			</div>
+		<div style="text-align:center;">
+			<h3 class="catbg"><span class="left"></span>
+			<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>
+				<img class="icon" id="upshrink_arcade_ic" src="', $settings['images_url'], '/collapse.gif" alt="*" title="', $txt['upshrink_description'], '" style="display: none;" />
+				', $txt['arcade_info_center'], '
+			</h3></div>
 			<div id="upshrinkHeaderArcadeIC"', empty($options['collapse_header_arcade_ic']) ? '' : ' style="display: none;"', '>
+			<div style="text-align:left;">
 				<h4 class="titlebg"><span class="left"></span>
+				<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -200px;">&nbsp;</span>
 					<span>', $txt['arcade_latest_scores'], '</span>
-				</h4>';
+				</h4></div>';
 
 		if (!empty($context['arcade']['latest_scores']))
 		{
@@ -188,9 +184,11 @@ function template_arcade_list()
 				<p>', $txt['arcade_no_scores'], '</p>';
 
 		echo '
+				<div style="text-align:left;">
 				<h4 class="titlebg clear"><span class="left"></span>
+				<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -200px;">&nbsp;</span>
 					<span>', $txt['arcade_game_highlights'], '</span>
-				</h4>
+				</h4></div>
 				<p>
 		';
 
@@ -208,9 +206,11 @@ function template_arcade_list()
 
 		echo '
 				</p>
+				<div style="text-align:left;">
 				<h4 class="titlebg"><span class="left"></span>
+				<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -200px;">&nbsp;</span>
 					<span>', $txt['arcade_users'], '</span>
-				</h4>
+				</h4></div>
 				<p>
 					', implode(', ', $context['arcade_viewing']), '
 				</p>

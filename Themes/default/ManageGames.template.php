@@ -1,11 +1,5 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+// Version: 2.5 RC1.1C; ManageGames
 
 function template_manage_games_list()
 {
@@ -94,15 +88,16 @@ function template_manage_games_uninstall_confirm()
 
 function template_manage_games_upload()
 {
-	global $scripturl, $context, $txt;
+	global $scripturl, $context, $txt, $settings;
 
 	echo '
 	<form action="', $scripturl, '?action=admin;area=managegames;sa=upload2" method="post" accept-charset="', $context['character_set'], '" enctype="multipart/form-data">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				', $txt['arcade_upload'], '
-			</h3>
-		</div>
+		<h3 class="catbg">
+			<span class="left"></span>
+			<span class="right"></span>	
+			<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>		
+			', $txt['arcade_upload'], '
+		</h3>
 		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div style="padding: 0.5em;">
@@ -121,7 +116,7 @@ function template_manage_games_upload()
 
 function template_edit_game_above()
 {
-	global $scripturl, $context, $txt;
+	global $scripturl, $context, $txt, $settings;
 
 	echo '
 	<form action="', $scripturl, '?action=admin;area=managegames;sa=edit2" method="post">
@@ -129,11 +124,13 @@ function template_edit_game_above()
 		<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '" />
 		<input type="hidden" name="edit_page" value="', $context['edit_page'], '" />
 
-		<div class="cat_bar">
-			<h3 class="catbg">
-				', $context['game']['name'], '
-			</h3>
-		</div>
+		<h3 class="catbg">
+			<span class="left"></span>
+			<span class="right"></span>
+			<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>
+			', $context['game']['name'], '
+		</h3>
+		
 		<div class="windowbg">
 			<span class="topslice"><span></span></span>';
 

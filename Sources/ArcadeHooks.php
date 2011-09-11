@@ -1,16 +1,30 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+
+/**********************************************************************************
+* ArcadeHooks.php                                                                 *
+***********************************************************************************
+* SMF Arcade                                                                      *
+* =============================================================================== *
+* Software Version:           SMF Arcade 2.5 RC1.1C                               *
+* Software by:                Niko Pahajoki (http://www.madjoki.com)              *
+* Copyright 2004-2011 by:     Niko Pahajoki (http://www.madjoki.com)              *
+* Support, News, Updates at:  http://www.smfarcade.info                           *
+***********************************************************************************
+* This program is free software; you may redistribute it and/or modify it under   *
+* the terms of the provided license as published by Simple Machines LLC.          *
+*                                                                                 *
+* This program is distributed in the hope that it is and will be useful, but      *
+* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
+* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
+*                                                                                 *
+* See the "license.txt" file for details of the Simple Machines license.          *
+* The latest version can always be found at http://www.simplemachines.org.        *
+**********************************************************************************/
 
 if (!defined('SMF'))
 	die('Hacking attempt...');
 	
-function arcade_array_insert(&$input, $key, $insert, $where = 'before', $strict = false)
+function smfArcade_array_insert(&$input, $key, $insert, $where = 'before', $strict = false)
 {
 	$position = array_search($key, array_keys($input), $strict);
 	
@@ -35,41 +49,30 @@ function arcade_array_insert(&$input, $key, $insert, $where = 'before', $strict 
 		);
 }
 	
-function Arcade_actions(&$actionArray)
-{
-	global $modSettings;
+function smfArcade_actions(&$actionArray)
+{	
+	loadLanguage('Arcade');		
+	$actionArray['arcade'] = array('Arcade.php', 'Arcade');	
 	
-	if (empty($modSettings['arcadeEnabled']))
-		return;
-	
-	$actionArray['arcade'] = array('Arcade.php', 'Arcade');
 }
 
-function Arcade_core_features(&$core_features)
-{
-	$core_features['arcade'] = array(
-		'url' => 'action=admin;area=arcade',
-		'settings' => array(
-			'arcadeEnabled' => 1,
-		),
-	);
-}
 
-function Arcade_load_permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions, &$relabelPermissions)
+function smfArcade_load_permissions(&$permissionGroups, &$permissionList, &$leftPermissionGroups, &$hiddenPermissions, &$relabelPermissions)
 {
 	global $context;
-	
+	loadLanguage('Arcade');
+		
 	$permissionList['membergroup'] += array(
-		'arcade_view' => array(false, 'arcade', 'arcade'),
-		'arcade_play' => array(false, 'arcade', 'arcade'),
-		'arcade_submit' => array(false, 'arcade', 'arcade'),
-		'arcade_comment' => array(true, 'arcade', 'arcade', 'arcade_moderate'),
-		'arcade_user_stats' => array(true, 'arcade', 'arcade', 'arcade_moderate'),
-		'arcade_edit_settings' => array(true, 'arcade', 'arcade', 'arcade_moderate'),
-		'arcade_create_match' => array(false, 'arcade', 'arcade'),
-		'arcade_join_match' => array(false, 'arcade', 'arcade'),
-		'arcade_join_invite_match' => array(false, 'arcade', 'arcade'),
-		'arcade_admin' => array(false, 'arcade', 'administrate'),
+			'arcade_view' => array(false, 'arcade', 'arcade'),
+			'arcade_play' => array(false, 'arcade', 'arcade'),
+			'arcade_submit' => array(false, 'arcade', 'arcade'),
+			'arcade_comment' => array(true, 'arcade', 'arcade', 'arcade_moderate'),
+			'arcade_user_stats' => array(true, 'arcade', 'arcade', 'arcade_moderate'),
+			'arcade_edit_settings' => array(true, 'arcade', 'arcade', 'arcade_moderate'),
+			'arcade_create_match' => array(false, 'arcade', 'arcade'),
+			'arcade_join_match' => array(false, 'arcade', 'arcade'),
+			'arcade_join_invite_match' => array(false, 'arcade', 'arcade'),
+			'arcade_admin' => array(false, 'arcade', 'administrate'),		
 	);
 	
 	$context['non_guest_permissions'] = array_merge(
@@ -81,16 +84,63 @@ function Arcade_load_permissions(&$permissionGroups, &$permissionList, &$leftPer
 			'arcade_join_invite_match',
 			'arcade_comment',
 			'arcade_edit_settings',
-			'arcade_user_stats',
+			'arcade_user_stats',		
+		)
+	);
+	
+	$permissionGroups['membergroup']['simple'] += array(
+			'arcade',		
+	);	
+	$permissionGroups['membergroup']['classic'] += array(
+			'arcade',		
+	);	
+		
+}
+
+function smfArcade_menu_buttons(&$menu_buttons)
+{
+	global $context, $modSettings, $scripturl, $txt;
+	loadLanguage('Arcade');
+			
+	$context['allow_arcade'] = allowedTo('arcade_view') && !empty($modSettings['arcadeEnabled']);	
+	if (!$context['allow_admin'])
+		{$context['allow_admin'] = allowedTo('arcade_admin');}
+	
+	smfArcade_array_insert($menu_buttons, 'search',
+		array(
+			'arcade' => array(
+                'title' => $txt['arcade'],
+				'href' => $scripturl . '?action=arcade',
+				'show' => $context['allow_arcade'],
+				'active_button' => false,
+				'sub_buttons' => array(
+				),			
+			),
 		)
 	);
 }
 
-function Arcade_profile_areas(&$profile_areas)
+function smfArcade_core_features(&$core_features)
+{
+	global $context, $modSettings, $txt;	
+	loadLanguage('Arcade');	
+	smfArcade_array_insert($core_features, 'w',
+		array(
+			'arcade' => array(
+			'url' => 'action=admin;area=arcade',
+			'settings' => array(
+				'arcadeEnabled' => 1,
+				),
+			),
+		)
+	);
+}
+
+function smfArcade_profile_areas(&$profile_areas)
 {
 	global $modSettings, $txt;
-	
-	arcade_array_insert($profile_areas['profile_action']['areas'], 'issuewarning',
+	loadLanguage('Arcade');	
+	$profile_areas['profile_action']['areas'] += 
 		array(
 			'arcadeChallenge' => array(
 				'label' => $txt['sendArcadeChallenge'],
@@ -100,72 +150,46 @@ function Arcade_profile_areas(&$profile_areas)
 				'permission' => array(
 					'own' => array(),
 					'any' => array('arcade_create_match'),
-				),
-			),
-		)
+					),
+				)
 	);
-	
-	arcade_array_insert($profile_areas['info']['areas'], 'showposts',
+	$profile_areas['info']['areas'] += 
 		array(
 			'arcadeStats' => array(
-				'label' => $txt['arcadeStats'],
-				'file' => 'Profile-Arcade.php',
-				'function' => 'arcadeStats',
-				'enabled' => !empty($modSettings['arcadeEnabled']),
-				'permission' => array(
-					'own' => array('arcade_user_stats_any', 'arcade_user_stats_own'),
-					'any' => array('arcade_user_stats_any'),
-				),
-			),
-		)
+					'label' => $txt['arcadeStats'],
+					'file' => 'Profile-Arcade.php',
+					'function' => 'arcadeStats',
+					'enabled' => !empty($modSettings['arcadeEnabled']),
+					'permission' => array(
+						'own' => array('arcade_user_stats_any', 'arcade_user_stats_own'),
+						'any' => array('arcade_user_stats_any'),
+					),
+				)
 	);
-	
-	arcade_array_insert($profile_areas['edit_profile']['areas'], 'forumprofile',
+	$profile_areas['edit_profile']['areas'] += 
 		array(
 			'arcadeSettings' => array(
-				'label' => $txt['arcadeSettings'],
-				'file' => 'Profile-Arcade.php',
-				'function' => 'arcadeSettings',
-				'enabled' => !empty($modSettings['arcadeEnabled']),
-				'permission' => array(
-					'own' => array('arcade_edit_settings_any', 'arcade_edit_settings_own'),
-					'any' => array('arcade_edit_settings_any'),
-				),
-			),
-		)
+					'label' => $txt['arcadeSettings'],
+					'file' => 'Profile-Arcade.php',
+					'function' => 'arcadeSettings',
+					'enabled' => !empty($modSettings['arcadeEnabled']),
+					'permission' => array(
+						'own' => array('arcade_edit_settings_any', 'arcade_edit_settings_own'),
+						'any' => array('arcade_edit_settings_any'),
+					),
+				)
 	);
+	
 }
 
-function Arcade_menu_buttons(&$menu_buttons)
+function smfArcade_admin_areas(&$admin_areas)
 {
-	global $context, $modSettings, $scripturl, $txt;
-	
-	if (!$context['allow_admin'])
-		$context['allow_admin'] = allowedTo('arcade_admin');
-	
-	$context['allow_arcade'] = allowedTo('arcade_view') && !empty($modSettings['arcadeEnabled']);
-	
-	arcade_array_insert($menu_buttons, 'search',
-		array(
-			'arcade' => array(
-				'title' => $txt['arcade'],
-				'href' => $scripturl . '?action=arcade',
-				'show' => $context['allow_arcade'],
-				'active_button' => false,
-				'sub_buttons' => array(
-				),
-			),
-		)
-	);
-}
-
-function Arcade_admin_areas(&$admin_areas)
-{
-	global $context, $modSettings, $scripturl, $txt;
-	
-	arcade_array_insert($admin_areas, 'members',
-		array(
-			'arcade' => array(
+	global $txt, $modSettings;
+	loadLanguage('Arcade');
+		
+	smfArcade_array_insert($admin_areas, 'members',
+			array(
+				'arcade' => array(
 				'title' => $txt['arcade_admin'],
 				'permission' => array('arcade_admin'),
 				'areas' => array(
@@ -221,4 +245,60 @@ function Arcade_admin_areas(&$admin_areas)
 	);
 }
 
+function smfArcade_submit()
+{
+	global $sourcedir;
+	// Check for arcade actions
+	// IBPArcade v2.x.x Games support
+	if (isset($_REQUEST['act']) && strtolower($_REQUEST['act']) == 'arcade')
+	{
+		$_REQUEST['action'] = 'arcade';
+
+		if (isset($_REQUEST['do']) && $_REQUEST['do'] == 'newscore')
+			$_REQUEST['sa'] = 'ibpsubmit2';
+
+		require_once($sourcedir . '/Arcade.php');
+		return 'Arcade';
+	}
+	// IBPArcade v3.x.x Games support
+	elseif (isset($_REQUEST['autocom']) && $_REQUEST['autocom'] == 'arcade')
+	{
+		$_REQUEST['action'] = 'arcade';
+
+		if (isset($_REQUEST['do']) && $_REQUEST['do'] == 'savescore')
+			$_REQUEST['sa'] = 'ibpsubmit3';
+		elseif (isset($_REQUEST['do']) && $_REQUEST['do'] == 'verifyscore')
+			$_REQUEST['sa'] = 'ibpverify';
+
+		require_once($sourcedir . '/Arcade.php');
+		return 'Arcade';
+	}
+	elseif (isset($_REQUEST['play']) && !isset($_REQUEST['game']))
+	{
+		$_REQUEST['game'] = $_REQUEST['play'];
+		unset($_REQUEST['play']);
+		$_REQUEST['sa'] = 'play';
+
+		require_once($sourcedir . '/Arcade.php');
+		return 'Arcade';
+	}
+	elseif (isset($_REQUEST['highscore']) && !isset($_REQUEST['game']))
+	{
+		$_REQUEST['game'] = $_REQUEST['highscore'];
+		unset($_REQUEST['highscore']);
+		$_REQUEST['sa'] = 'highscore';
+
+		require_once($sourcedir . '/Arcade.php');
+		return 'Arcade';
+	}
+	elseif ((isset($_REQUEST['game']) || isset($_REQUEST['match'])) && !isset($_REQUEST['action']))
+	{
+		require_once($sourcedir . '/Arcade.php');
+		return 'Arcade';
+	}
+	else 
+	{
+		return false;
+	}
+}
 ?>

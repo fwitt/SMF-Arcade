@@ -1,23 +1,17 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+// Version: 2.5 RC1.1C; ArcadeStats
 
 function template_arcade_statistics()
 {
 	global $scripturl, $txt, $context, $settings;
 
 	echo '
-	<div class="cat_bar">
-		<h3 class="catbg">
-			<img src="', $settings['images_url'], '/gold.gif" alt="" />
+	<div style="text-align:center;">
+	<h3 class="catbg"><span class="left"></span>
+	<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>	
+		<img src="', $settings['images_url'], '/gold.gif" alt="" />
 		', $txt['arcade_stats'], '
-		</h3>
-	</div>';
+	</h3></div>';
 	
 	$alternate = false;
 
@@ -26,12 +20,10 @@ function template_arcade_statistics()
 	{
 		echo '
 	<div class="', !$alternate ? 'floatleft' : 'floatright', '" style="width: 48%;">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				<img src="', $settings['images_url'], '/gold.gif" class="icon" alt="" />
-				', $txt['arcade_most_played'], '
-			</h3>
-		</div>
+		<h3 class="catbg"><span class="left"></span>
+		<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>	
+			<img src="', $settings['images_url'], '/gold.gif" class="icon" alt="" /> ', $txt['arcade_most_played'], '
+		</h3>
 		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div class="content">
@@ -77,12 +69,10 @@ function template_arcade_statistics()
 	{
 		echo '
 	<div class="', !$alternate ? 'floatleft' : 'floatright', '" style="width: 48%;">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				<img src="', $settings['images_url'], '/gold.gif" class="icon" alt="" />
-				', $txt['arcade_most_active'], '
-			</h3>
-		</div>
+		<h3 class="catbg"><span class="left"></span>
+		<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>	
+			<img src="', $settings['images_url'], '/gold.gif" class="icon" alt="" /> ', $txt['arcade_most_active'], '
+		</h3>
 		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div class="content">
@@ -129,12 +119,10 @@ function template_arcade_statistics()
 	{
 		echo '
 	<div class="', !$alternate ? 'floatleft' : 'floatright', '" style="width: 48%;">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				<img src="', $settings['images_url'], '/gold.gif" class="icon" alt="" />
-				', $txt['arcade_best_games'], '
-			</h3>
-		</div>
+		<h3 class="catbg"><span class="left"></span>
+		<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>	
+			<img src="', $settings['images_url'], '/gold.gif" class="icon" alt="" /> ', $txt['arcade_best_games'], '
+		</h3>
 		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div class="content">
@@ -179,12 +167,10 @@ function template_arcade_statistics()
 	{
 		echo '
 	<div class="', !$alternate ? 'floatleft' : 'floatright', '" style="width: 48%;">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				<img src="', $settings['images_url'], '/gold.gif" class="icon" alt="" />
-				', $txt['arcade_best_players'], '
-			</h3>
-		</div>
+		<h3 class="catbg"><span class="left"></span>
+		<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>	
+			<img src="', $settings['images_url'], '/gold.gif" class="icon" alt="" /> ', $txt['arcade_best_players'], '
+		</h3>
 		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div class="content">
@@ -228,12 +214,10 @@ function template_arcade_statistics()
 	{
 		echo '
 	<div class="', !$alternate ? 'floatleft' : 'floatright', '" style="width: 48%;">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				<img src="', $settings['images_url'], '/gold.gif" class="icon" alt="" />
-				', $txt['arcade_longest_champions'], '
-			</h3>
-		</div>
+		<h3 class="catbg"><span class="left"></span>
+		<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>	
+			<img src="', $settings['images_url'], '/gold.gif" class="icon" alt="" /> ', $txt['arcade_longest_champions'], '
+		</h3>
 		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div class="content">

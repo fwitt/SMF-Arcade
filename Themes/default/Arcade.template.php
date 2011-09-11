@@ -1,11 +1,5 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+// Version: 2.5 RC1.1C; Arcade
 
 function template_arcade_above()
 {
@@ -14,9 +8,12 @@ function template_arcade_above()
 	if (!empty($context['arcade_tabs']))
 	{
 		echo '
-	<div class="cat_bar">
+	<div style="text-align:center;">
 		<h3 class="catbg">
-			<span class="floatleft">', $context['arcade_tabs']['title'], '</span>
+			<span class="left"></span>
+			<span class="right"></span>
+			<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>
+			<span>', $context['arcade_tabs']['title'], '</span>
 			<img id="arcade_toggle" class="floatright" src="', $settings['images_url'], '/collapse.gif', '" alt="*" title="', $txt['upshrink_description'], '" align="bottom" style="margin: 0 1ex; display: none;" />
 		</h3>
 	</div>
@@ -94,8 +91,7 @@ function template_arcade_below()
 	</div>
 
 	<div id="arcade_bottom" class="smalltext" style="text-align: center;">
-		Powered by: <a href="http://www.smfarcade.info/" target="_blank">SMF Arcade ', $arcade_version, '</a> &copy; <a href="http://www.madjoki.com/" target="_blank">Niko Pahajoki</a> 2004-2011
-	</div>';
+		Powered by: <a href="http://www.smfarcade.info/" target="_blank">SMF Arcade ', $arcade_version, '</a> &copy; <a href="http://www.madjoki.com/" target="_blank">Niko Pahajoki</a> 2004-2011</div>';
 
 }
 

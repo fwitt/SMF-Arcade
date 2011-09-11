@@ -1,11 +1,9 @@
 <?php
-/**
- * SWF Reader
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+// SWFReader
+// Version: 0.1
+// TODO:
+// support more tags
+// implement binary reader class?
 
 class SWFReader
 {

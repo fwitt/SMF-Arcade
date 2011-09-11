@@ -1,23 +1,16 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+// Version: 2.5 RC1.1C; ArcadeProfile
 
 function template_arcade_arena_challenge()
 {
 	global $scripturl, $txt, $context, $settings, $user_info, $modSettings;
 
 	echo '
-	<div class="cat_bar">
-		<h3 class="catbg">
-			<img src="', $settings['images_url'], '/stats_info.gif" width="20" height="20" alt="" />
-			', $txt['arcade_invite_user'], ' - ', $context['member']['name'], '
-		</h3>
-	</div>
+	<h3 class="catbg"><span class="left"></span>
+	<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>
+		<img src="', $settings['images_url'], '/stats_info.gif" width="20" height="20" alt="" />
+		', $txt['arcade_invite_user'], ' - ', $context['member']['name'], '
+	</h3>
 	<div class="windowbg">
 		<span class="topslice"><span></span></span>
 		<div class="content">
@@ -51,12 +44,11 @@ function template_arcade_user_statistics()
 	global $scripturl, $txt, $context, $settings, $memberContext;
 
 	echo '
-	<div class="cat_bar">
-		<h3 class="catbg">
-			<img src="', $settings['images_url'], '/stats_info.gif" width="20" height="20" alt="" />
-			', $txt['arcade_member_stats'], ' - ', $context['member']['name'], '
-		</h3>
-	</div>
+	<h3 class="catbg"><span class="left"></span>
+	<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>
+		<img src="', $settings['images_url'], '/stats_info.gif" width="20" height="20" alt="" />
+		', $txt['arcade_member_stats'], ' - ', $context['member']['name'], '
+	</h3>
 	<div class="windowbg">
 		<span class="topslice"><span></span></span>
 		<div class="content">
@@ -76,12 +68,11 @@ function template_arcade_user_statistics()
 	if (!empty($context['arcade']['member_stats']['scores']))
 	{
 		echo '
-	<div class="cat_bar">
-		<h3 class="catbg">
-			<img src="', $settings['images_url'], '/stats_info.gif" width="20" height="20" alt="" />
-			', $txt['arcade_member_stats'], ' - ', $txt['arcade_member_best_scores'], '
-		</h3>
-	</div>
+	<h3 class="catbg"><span class="left"></span>
+	<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>
+		<img src="', $settings['images_url'], '/stats_info.gif" width="20" height="20" alt="" />
+		', $txt['arcade_member_stats'], ' - ', $txt['arcade_member_best_scores'], '
+	</h3>
 	<div class="windowbg">
 		<span class="topslice"><span></span></span>
 		<div class="content">
@@ -107,12 +98,11 @@ function template_arcade_user_statistics()
 	if (!empty($context['arcade']['member_stats']['latest_scores']))
 	{
 		echo '
-	<div class="cat_bar">
-		<h3 class="catbg">
-			<img src="', $settings['images_url'], '/stats_info.gif" width="20" height="20" alt="" />
-			', $txt['arcade_member_stats'], ' - ', $txt['arcade_latest_scores'], '
-		</h3>
-	</div>
+	<h3 class="catbg"><span class="left"></span>
+	<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>
+		<img src="', $settings['images_url'], '/stats_info.gif" width="20" height="20" alt="" />
+		', $txt['arcade_member_stats'], ' - ', $txt['arcade_latest_scores'], '
+	</h3>
 	<div class="windowbg">
 		<span class="topslice"><span></span></span>
 		<div class="content">

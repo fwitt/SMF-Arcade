@@ -1,11 +1,5 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+// Version: 2.5 RC1.1C; ArcadeGame
 
 function template_arcade_game_above()
 {
@@ -65,16 +59,17 @@ function template_arcade_game_above()
 	{
 		// Can't rate
 		$ratecode = str_repeat('<img src="' . $settings['images_url'] . '/arcade_star.gif" alt="*" />' , $rating);
-		$ratecode .= str_repeat('<img src="' . $settings['images_url'] . '/arcade_star2.gif" alt="" />' , 5 - $rating);
+		$ratecode .= str_repeat('<img src="' . $settings['images_url'] . '/arcade_star2.gif" alt="*" />' , 5 - $rating);
 	}
 
 	echo '
-	<div class="cat_bar">
-		<h3 class="catbg">
-			<span class="floatleft">', $context['game']['name'], '</span>
-			<img id="game_toggle" class="floatright" src="', $settings['images_url'], '/collapse.gif', '" alt="*" title="', $txt['upshrink_description'], '" align="bottom" style="margin: 0 1ex; display: none;" />
-		</h3>
-	</div>
+	<h3 class="catbg">
+		<span class="left"></span>
+		<span class="right"></span>
+		<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>		
+		<span class="floatleft">', $context['game']['name'], '</span>
+		<img id="game_toggle" class="floatright" src="', $settings['images_url'], '/collapse.gif', '" alt="*" title="', $txt['upshrink_description'], '" align="bottom" style="margin: 0 1ex; display: none;" />
+	</h3>
 	<div id="game_panel" class="windowbg2" style="', empty($options['game_panel_collapse']) ? '' : ' display: none;', '">
 		<span class="topslice"><span></span></span>
 		', !empty($context['game']['thumbnail']) ? '<img class="floatleft thumb" src="' . $context['game']['thumbnail'] . '" alt="" />' : '', '
@@ -167,11 +162,12 @@ function template_arcade_game_highscore()
 			$score = &$context['arcade']['new_score'];
 
 			echo '
-	<div class="cat_bar">
-		<h3 class="catbg">
-			', $txt['arcade_submit_score'], '
-		</h3>
-	</div>
+	<h3 class="catbg">
+		<span class="left"></span>
+		<span class="right"></span>
+		<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>		
+		<span class="floatleft">', $txt['arcade_submit_score'], '</span>
+	</h3>
 	<div class="windowbg2">
 		<span class="topslice"><span></span></span>
 		<div style="padding: 0 0.5em">';
@@ -220,11 +216,12 @@ function template_arcade_game_highscore()
 		elseif ($context['arcade']['submit'] == 'askname')
 		{
 			echo '
-	<div class="cat_bar">
-		<h3 class="catbg">
-			', $txt['arcade_submit_score'], '
-		</h3>
-	</div>
+	<h3 class="catbg">
+		<span class="left"></span>
+		<span class="right"></span>
+		<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>		
+		<span class="floatleft">', $txt['arcade_submit_score'], '</span>
+	</h3>
 	<div class="windowbg2">
 		<span class="topslice"><span></span></span>
 		<div style="padding: 0 0.5em">
@@ -246,35 +243,36 @@ function template_arcade_game_highscore()
 	<form name="score" action="', $scripturl, '?action=arcade;sa=highscore" method="post">
 		<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '" />
 		<input type="hidden" name="game" value="', $context['game']['id'], '" />
-		<div class="cat_bar">
-			<h3 class="catbg">
-				', $txt['arcade_highscores'], '
-			</h3>
-		</div>
+		<h3 class="catbg">
+			<span class="left"></span>
+			<span class="right"></span>
+			<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>		
+			<span class="floatleft">', $txt['arcade_highscores'], '</span>
+		</h3>
 		<div class="score_table">
 			<table cellspacing="0" class="table_grid">
 				<thead>
-					<tr class="catbg">';
+					<tr>';
 
 	// Is there games?
 	if (!empty($context['arcade']['scores']))
 	{
 			echo '
-						<th scope="col" class="first_th" width="5">', $txt['arcade_position'], '</th>
-						<th scope="col">', $txt['arcade_member'], '</th>
-						<th scope="col"> ', $txt['arcade_comment'], '</th>
-						<th scope="col" class="', !$context['arcade']['can_admin_arcade'] ? ' last_th' : '', '">', $txt['arcade_score'], '</th>';
+						<th scope="col" class="smalltext first_th" width="5">', $txt['arcade_position'], '</th>
+						<th scope="col" class="smalltext">', $txt['arcade_member'], '</th>
+						<th scope="col" class="smalltext"> ', $txt['arcade_comment'], '</th>
+						<th scope="col" class="smalltext', !$context['arcade']['can_admin_arcade'] ? ' last_th' : '', '">', $txt['arcade_score'], '</th>';
 
 		if ($context['arcade']['can_admin_arcade'])
 			echo '
-						<th scope="col" class="last_th" align="center" width="15"><input type="checkbox" onclick="invertAll(this, this.form, \'scores[]\');" class="check" /></th>';
+						<th scope="col" class="smalltext last_th" align="center" width="15"><input type="checkbox" onclick="invertAll(this, this.form, \'scores[]\');" class="check" /></th>';
 	}
 	else
 	{
 		echo '
-						<th scope="col" class="first_th" width="8%">&nbsp;</th>
+						<th scope="col" class="smalltext first_th" width="8%">&nbsp;</th>
 						<th class="smalltext" colspan="', !$context['arcade']['can_admin_arcade'] ? '2' : '3', '"><strong>', $txt['arcade_no_scores'], '</strong></th>
-						<th scope="col" class="last_th" width="8%">&nbsp;</th>';
+						<th scope="col" class="smalltext last_th" width="8%">&nbsp;</th>';
 	}
 
 	echo '

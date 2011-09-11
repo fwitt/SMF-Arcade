@@ -18,74 +18,53 @@
 <modification xmlns="http://www.simplemachines.org/xml/modification" xmlns:smf="http://www.simplemachines.org/">
 	<!-- This information needs to be the same as that in the package-info.xml. -->
 	<id>Niko:Arcade</id>
-	<version>2.5</version>
+	<version>2.5 RC1.1C</version>
 
 	<file name="$boarddir/index.php">
 		<operation>
-			<search position="after"><![CDATA[	elseif (empty($_REQUEST['action']))]]></search>
-			<add><![CDATA[	// Check for arcade actions
-	// IBPArcade v2.x.x Games support
-	elseif (isset($_REQUEST['act']) && strtolower($_REQUEST['act']) == 'arcade')
-	{
-		$_REQUEST['action'] = 'arcade';
-
-		if (isset($_REQUEST['do']) && $_REQUEST['do'] == 'newscore')
-			$_REQUEST['sa'] = 'ibpsubmit2';
-
-		require_once($sourcedir . '/Arcade.php');
-		return 'Arcade';
-	}
-	// IBPArcade v3.x.x Games support
-	elseif (isset($_REQUEST['autocom']) && $_REQUEST['autocom'] == 'arcade')
-	{
-		$_REQUEST['action'] = 'arcade';
-
-		if (isset($_REQUEST['do']) && $_REQUEST['do'] == 'savescore')
-			$_REQUEST['sa'] = 'ibpsubmit3';
-		elseif (isset($_REQUEST['do']) && $_REQUEST['do'] == 'verifyscore')
-			$_REQUEST['sa'] = 'ibpverify';
-
-		require_once($sourcedir . '/Arcade.php');
-		return 'Arcade';
-	}
-	elseif (isset($_REQUEST['play']) && !isset($_REQUEST['game']))
-	{
-		$_REQUEST['game'] = $_REQUEST['play'];
-		unset($_REQUEST['play']);
-		$_REQUEST['sa'] = 'play';
-
-		require_once($sourcedir . '/Arcade.php');
-		return 'Arcade';
-	}
-	elseif (isset($_REQUEST['highscore']) && !isset($_REQUEST['game']))
-	{
-		$_REQUEST['game'] = $_REQUEST['highscore'];
-		unset($_REQUEST['highscore']);
-		$_REQUEST['sa'] = 'highscore';
-
-		require_once($sourcedir . '/Arcade.php');
-		return 'Arcade';
-	}
-	elseif ((isset($_REQUEST['game']) || isset($_REQUEST['match'])) && !isset($_REQUEST['action']))
-	{
-		require_once($sourcedir . '/Arcade.php');
-		return 'Arcade';
-	}
+			<search position="after"><![CDATA[	// Is the forum in maintenance mode? (doesn't apply to administrators.)]]></search>
+			<add><![CDATA[	$check_score = smfArcade_submit();	
+	if ($check_score) {return $check_score;}
+	
 ]]></add>
-		</operation>
+		</operation>		
 	</file>
-
+	<file name="$sourcedir/Admin.php">
+		<operation>
+			<search position="replace"><![CDATA[loadLanguage(implode('+', $language_files));]]></search>
+			<add><![CDATA[$language_files[] = 'ArcadeAdmin';
+			
+	loadLanguage(implode('+', $language_files));]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[foreach ($include_files as $file)
+		require_once($sourcedir . '/' . $file . '.php');]]></search>
+			<add><![CDATA[$include_files[] = 'ArcadeAdmin';
+	$include_files[] = 'Subs-Arcade';
+	
+	foreach ($include_files as $file)
+		require_once($sourcedir . '/' . $file . '.php');]]></add>
+		</operation>
+		<operation>
+			<search position="replace"><![CDATA[foreach ($settings_search as $setting_area)]]></search>
+			<add><![CDATA[$settings_search[] = array('ArcadeAdminSettings', 'area=arcade;sa=settings');
+	$settings_search[] = array('ArcadeAdminPemission', 'area=arcade;sa=permission');
+		
+	foreach ($settings_search as $setting_area)]]></add>
+		</operation>									
+	</file>
 	<file name="$sourcedir/Subs-Db-mysql.php">
 		<operation>
 			<search position="after"><![CDATA[
 	if (!isset($matches[2]))]]></search>
 			<add><![CDATA[
-	if ($matches[1] === 'query_see_game')
-		return $user_info['query_see_game'];
-	elseif ($matches[1] === 'query_see_match')
-		return $user_info['query_see_match'];
-	elseif ($matches[1] === 'query_arena_game')
-		return $user_info['query_arena_game'];
+	global $user_info;
+	$queryArena = array('query_see_game', 'query_see_match', 'query_arena_game');
+	foreach ($queryArena as $arena)
+	{
+		if ($matches[1] === $arena)
+			return $user_info[$arena];
+	}	
 ]]></add>
 		</operation>
 	</file>
@@ -95,12 +74,13 @@
 			<search position="after"><![CDATA[
 	if (!isset($matches[2]))]]></search>
 			<add><![CDATA[
-	if ($matches[1] === 'query_see_game')
-		return $user_info['query_see_game'];
-	elseif ($matches[1] === 'query_see_match')
-		return $user_info['query_see_match'];
-	elseif ($matches[1] === 'query_arena_game')
-		return $user_info['query_arena_game'];
+	global $user_info;
+	$queryArena = array('query_see_game', 'query_see_match', 'query_arena_game');
+	foreach ($queryArena as $arena)
+	{
+		if ($matches[1] === $arena)
+			return $user_info[$arena];
+	}	
 ]]></add>
 		</operation>
 	</file>
@@ -110,38 +90,17 @@
 			<search position="after"><![CDATA[
 	if (!isset($matches[2]))]]></search>
 			<add><![CDATA[
-	if ($matches[1] === 'query_see_game')
-		return $user_info['query_see_game'];
-	elseif ($matches[1] === 'query_see_match')
-		return $user_info['query_see_match'];
-	elseif ($matches[1] === 'query_arena_game')
-		return $user_info['query_arena_game'];
+	global $user_info;
+	$queryArena = array('query_see_game', 'query_see_match', 'query_arena_game');
+	foreach ($queryArena as $arena)
+	{
+		if ($matches[1] === $arena)
+			return $user_info[$arena];
+	}	
 ]]></add>
 		</operation>
 	</file>
-	
-	<file name="$sourcedir/Admin.php">
-		<operation>
-			<search position="before"><![CDATA[	$language_files = array(]]></search>
-			<add><![CDATA[
-	'ArcadeAdmin', ]]></add>
-		</operation>
-
-		<operation>
-			<search position="before"><![CDATA[	$include_files = array(]]></search>
-			<add><![CDATA[
-	'ArcadeAdmin', ]]></add>
-		</operation>
-
-		<operation>
-			<search position="before"><![CDATA[		array('ModifyCacheSettings', 'area=serversettings;sa=cache'),]]></search>
-			<add><![CDATA[		array('ArcadeAdminSettings', 'area=arcade;sa=settings'),
-		array('ArcadeAdminPemission', 'area=arcade;sa=permission'),]]></add>
-		</operation>
-	</file>
-
 	<file name="$sourcedir/Who.php">
-		<!-- Not hook because it would mean to use multiple queries to load games -->
 		<operation>
 			<search position="after"><![CDATA[		// Probably an error or some goon?]]></search>
 			<add><![CDATA[		elseif ($actions['action'] == 'arcade')

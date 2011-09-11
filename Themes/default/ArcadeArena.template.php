@@ -1,11 +1,5 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+// Version: 2.5 RC1.1C; ArcadeArena
 
 function template_arcade_arena_matches()
 {
@@ -29,20 +23,20 @@ function template_arcade_arena_matches()
 	<div class="game_table">
 		<table cellspacing="0" class="table_grid">
 			<thead>
-				<tr class="catbg">';
+				<tr>';
 
 	if (!empty($context['matches']))
 		echo '
-					<th scope="col" class="first_th"></th>
-					<th scope="col">', $txt['match_name'], '</th>
-					<th scope="col">', $txt['match_status'], '</th>
-					<th scope="col">', $txt['match_players'], '</th>
-					<th scope="col" class="smallext last_th">', $txt['match_round'], '</th>';
+					<th scope="col" class="smalltext first_th"></th>
+					<th scope="col" class="smalltext">', $txt['match_name'], '</th>
+					<th scope="col" class="smalltext">', $txt['match_status'], '</th>
+					<th scope="col" class="smalltext">', $txt['match_players'], '</th>
+					<th scope="col" class="smalltext last_th">', $txt['match_round'], '</th>';
 	else
 		echo '
-					<th scope="col" class="first_th" width="8%">&nbsp;</th>
+					<th scope="col" class="smalltext first_th" width="8%">&nbsp;</th>
 					<th class="smalltext" colspan="2"><strong>', $txt['arcade_no_matches'], '</strong></th>
-					<th scope="col" class="last_th" width="8%">&nbsp;</th>';
+					<th scope="col" class="smalltext last_th" width="8%">&nbsp;</th>';
 
 	echo '
 				</tr>
@@ -76,12 +70,13 @@ function template_arcade_arena_view_match_above()
 	global $scripturl, $txt, $context, $settings, $user_info, $modSettings;
 
 	echo '
-	<div class="cat_bar">
-		<h3 class="catbg">
-			<span class="floatleft">', $context['match']['name'], '</span>
-			<img id="arena_panel_toggle" class="floatright" src="', $settings['images_url'], '/collapse.gif', '" alt="*" title="', $txt['upshrink_description'], '" align="bottom" style="margin: 0 1ex; display: none;" />
-		</h3>
-	</div>
+	<h3 class="catbg">
+		<span class="left"></span>
+		<span class="right"></span>
+		<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>	
+		<span class="floatleft">', $context['match']['name'], '</span>
+		<img id="arena_panel_toggle" class="floatright" src="', $settings['images_url'], '/collapse.gif', '" alt="*" title="', $txt['upshrink_description'], '" align="bottom" style="margin: 0 1ex; display: none;" />
+	</h3>
 	<div id="arena_panel" style="', empty($options['game_panel_collapse']) ? '' : ' display: none;', '" class="windowbg2">
 		<span class="topslice"><span></span></span>
 		<div style="padding: 0 0.5em">
@@ -191,13 +186,13 @@ function template_arcade_arena_view_match()
 	global $scripturl, $txt, $context, $settings, $user_info, $modSettings;
 
 	echo '
-	<div class="floatleft" style="width: 48%">
-		<table cellspacing="1" class="playerlist">
-			<tr class="catbg">
-				<th class="first_th">', $txt['arcade_position'], '</th>
-				<th>', $txt['arcade_member'], '</th>
-				<th>', $txt['match_status'], '</th>
-				<th class="last_th">', $txt['arcade_score'], '</th>
+	<div class="floatleft tborder" style="width: 48%">
+		<table cellspacing="1" class="playerlist bordercolor">
+			<tr>
+				<th class="catbg3 headerpadding">', $txt['arcade_position'], '</th>
+				<th class="catbg3 headerpadding">', $txt['arcade_member'], '</th>
+				<th class="catbg3 headerpadding">', $txt['match_status'], '</th>
+				<th class="catbg3 headerpadding">', $txt['arcade_score'], '</th>
 			</tr>';
 
 	foreach ($context['match']['players'] as $player)
@@ -225,11 +220,10 @@ function template_arcade_arena_view_match()
 		</table>
 	</div>
 
-	<div class="floatright" style="width: 48%">
-		<table cellspacing="1" class="gameslist">
-			<tr class="catbg">
-				<th class="first_th">', $txt['arcade_rounds'], '</th>
-				<th class="last_Th">', $txt['game'], '</th>
+	<div class="floatright tborder" style="width: 48%">
+		<table cellspacing="1" class="gameslist bordercolor">
+			<tr>
+				<th class="catbg3 headerpadding" colspan="2">', $txt['arcade_rounds'], '</th>
 			</tr>';
 
 	foreach ($context['match']['rounds'] as $round)
@@ -275,11 +269,13 @@ function template_arcade_arena_new_match()
 	<form action="', $scripturl, '?action=arcade;sa=newMatch2" method="post">
 		<input type="hidden" name="', $context['session_var'], '" value="', $context['session_id'], '" />
 		<input type="hidden" name="segnum" value="', $context['form_sequence_number'], '" />
-		<div class="cat_bar">
-			<h3 class="catbg">
-				', $txt['arcade_new_match'], '
-			</h3>
-		</div>';
+		<div style="text-align:center;">
+		<h3 class="catbg">
+			<span class="left"></span>
+			<span class="right"></span>
+			<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>	
+			<span>', $txt['arcade_new_match'], '</span>
+		</h3></div>';
 
 	if (!empty($context['errors']))
 		echo '

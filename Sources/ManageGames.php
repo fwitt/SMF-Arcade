@@ -1,11 +1,24 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+/**********************************************************************************
+* ManageGames.php                                                                 *
+***********************************************************************************
+* SMF Arcade                                                                      *
+* =============================================================================== *
+* Software Version:           SMF Arcade 2.5 RC1.1                                *
+* Software by:                Niko Pahajoki (http://www.madjoki.com)              *
+* Copyright 2004-2009 by:     Niko Pahajoki (http://www.madjoki.com)              *
+* Support, News, Updates at:  http://www.smfarcade.info                           *
+***********************************************************************************
+* This program is free software; you may redistribute it and/or modify it under   *
+* the terms of the provided license as published by Simple Machines LLC.          *
+*                                                                                 *
+* This program is distributed in the hope that it is and will be useful, but      *
+* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
+* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
+*                                                                                 *
+* See the "license.txt" file for details of the Simple Machines license.          *
+* The latest version can always be found at http://www.simplemachines.org.        *
+**********************************************************************************/
 
 /*
 	void ManageGames()
@@ -138,7 +151,7 @@ function ManageGamesList()
 		'items_per_page' => $modSettings['gamesPerPage'],
 		'base_href' => $scripturl . '?action=admin;area=managegames' . ($filter !== 'all' ? ';filter=' . $filter : ''),
 		'default_sort_col' => 'name',
-		'no_items_label' => sprintf($filter == 'all' ? $txt['arcade_no_games_installed'] : $txt['arcade_no_games_filter'], $scripturl . '?action=admin;area=managegames;sa=install'),
+		'no_items_label' => sprintf($txt['arcade_no_games_installed'], $scripturl . '?action=admin;area=managegames;sa=install'),
 		'use_tabs' => true,
 		'list_menu' => array(
 			'style' => 'buttons',
@@ -507,7 +520,9 @@ function ManageGamesUpload()
 function ManageGamesUpload2()
 {
 	global $scripturl, $txt, $modSettings, $context, $sourcedir, $smcFunc;
-
+	if (empty($_FILES['attachment']['tmp_name']))
+		fatal_lang_error('arcade_upload_file', false);
+		
 	foreach ($_FILES['attachment']['tmp_name'] as $n => $dummy)
 	{
 		if ($_FILES['attachment']['name'][$n] == '')

@@ -1,11 +1,5 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+// Version: 2.5 RC1.1C; ArcadeAdmin
 
 function template_arcade_admin_main()
 {
@@ -13,11 +7,12 @@ function template_arcade_admin_main()
 
 	echo '
 	<div style="width: 49%" class="floatleft">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				', $txt['arcade_latest_news'], '
-			</h3>
-		</div>
+		<h3 class="catbg">
+			<span class="left"></span>
+			<span class="right"></span>
+			<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>
+			', $txt['arcade_latest_news'], '
+		</h3>
 		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div id="arcade_news" style="overflow: auto; height: 18ex; padding: 0.5em;">', sprintf($txt['arcade_unable_to_connect'], 'SMFArcade.info'), '</div>
@@ -25,14 +20,15 @@ function template_arcade_admin_main()
 		</div>
 	</div>
 	<div style="width: 49%" class="floatright">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				', $txt['arcade_status'], '
-			</h3>
-		</div>
+		<h3 class="catbg">
+			<span class="left"></span>
+			<span class="right"></span>	
+			<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>		
+			', $txt['arcade_status'], '
+		</h3>
 		<div class="windowbg2">
-			<span class="topslice"><span></span></span>
-			<div style="overflow: auto; height: 18ex; padding: 0.5em;">
+			<span class="topslice"><span></span></span>			
+			<div style="overflow: auto; height: 18ex; padding: 0.5em;">			
 				', $txt['arcade_installed_version'], ': <span id="arcade_installed_version">', $arcade_version, '</span><br />
 				', $txt['arcade_latest_version'], ': <span id="arcade_latest_version">???</span>
 			</div>
@@ -81,11 +77,12 @@ function template_arcade_admin_maintenance()
 	</div>';
 
 	echo '
-	<div class="cat_bar">
-		<h3 class="catbg">
-			', $txt['arcade_maintenance'], '
-		</h3>
-	</div>
+	<h3 class="catbg">
+		<span class="left"></span>
+		<span class="right"></span>
+		<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>		
+		<span class="floatleft">', $txt['arcade_maintenance'], '</span>
+	</h3>
 	<div class="windowbg">
 		<span class="topslice"><span></span></span>
 			<div style="padding: 0.5em;">
@@ -106,11 +103,12 @@ function template_arcade_admin_maintenance_highscore()
 
 	echo '
 	<form name="category" action="', $scripturl, '?action=admin;area=arcademaintenance;sa=highscore" method="post">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				', $txt['arcade_maintenance'], ' - ', $txt['arcade_maintenance_highscore'], '
-			</h3>
-		</div>
+		<h3 class="catbg">
+			<span class="left"></span>
+			<span class="right"></span>
+			<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>		
+			<span class="floatleft">', $txt['arcade_maintenance'], ' - ', $txt['arcade_maintenance_highscore'], '</span>
+		</h3>
 		<div class="windowbg">
 			<span class="topslice"><span></span></span>
 				<div style="padding: 0.5em;">
@@ -137,11 +135,12 @@ function template_arcade_admin_category_list()
 
 	echo '
 	<form name="category" action="', $scripturl, '?action=admin;area=arcadecategory;save" method="post">
-		<div class="cat_bar">
-			<h3 class="catbg">
-				', $txt['arcade_categories'], '
-			</h3>
-		</div>
+		<h3 class="catbg">
+			<span class="left"></span>
+			<span class="right"></span>
+			<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>		
+			<span class="floatleft">', $txt['arcade_categories'], '</span>
+		</h3>
 		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div style="padding: 0.5em;">
@@ -181,11 +180,12 @@ function template_arcade_admin_category_edit()
 	echo '
 	<form name="category" action="', $scripturl, '?action=admin;area=arcadecategory;sa=save" method="post">
 		<input type="hidden" name="category" value="', $context['category']['id'], '" />
-		<div class="cat_bar">
-			<h3 class="catbg">
-				', $txt['arcade_categories'], '
-			</h3>
-		</div>
+		<h3 class="catbg">
+			<span class="left"></span>
+			<span class="right"></span>
+			<span style="float:left;border:0px;background: url(',$settings['actual_theme_url'],'/images/theme/main_block.png) no-repeat 0% -160px;">&nbsp;</span>		
+			<span class="floatleft">', $txt['arcade_categories'], '</span>
+		</h3>
 		<div class="windowbg2">
 			<span class="topslice"><span></span></span>
 			<div style="padding: 0.5em;">
@@ -230,7 +230,7 @@ function template_arcadeadmin_below()
 	// Print out copyright and version. Removing copyright is not allowed by license
 	echo '
 	<div id="arcade_bottom" class="smalltext" style="text-align: center;">
-		Powered by: <a href="http://www.smfarcade.info/" target="_blank">SMF Arcade ', $arcade_version, '</a> &copy; <a href="http://www.madjoki.com/" target="_blank">Niko Pahajoki</a> 2004-2009
+		Powered by: <a href="http://www.smfarcade.info/" target="_blank">SMF Arcade ', $arcade_version, '</a> &copy; <a href="http://www.madjoki.com/" target="_blank">Niko Pahajoki</a> 2004-2011
 	</div>';
 
 }

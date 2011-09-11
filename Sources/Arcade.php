@@ -1,11 +1,24 @@
 <?php
-/**
- * SMF Arcade
- *
- * @package SMF Arcade
- * @version 2.5
- * @license http://download.smfarcade.info/license.php New-BSD
- */
+/**********************************************************************************
+* Arcade.php                                                                      *
+***********************************************************************************
+* SMF Arcade                                                                      *
+* =============================================================================== *
+* Software Version:           SMF Arcade 2.5 RC1.1                                *
+* Software by:                Niko Pahajoki (http://www.madjoki.com)              *
+* Copyright 2004-2009 by:     Niko Pahajoki (http://www.madjoki.com)              *
+* Support, News, Updates at:  http://www.smfarcade.info                           *
+***********************************************************************************
+* This program is free software; you may redistribute it and/or modify it under   *
+* the terms of the provided license as published by Simple Machines LLC.          *
+*                                                                                 *
+* This program is distributed in the hope that it is and will be useful, but      *
+* WITHOUT ANY WARRANTIES; without even any implied warranty of MERCHANTABILITY    *
+* or FITNESS FOR A PARTICULAR PURPOSE.                                            *
+*                                                                                 *
+* See the "license.txt" file for details of the Simple Machines license.          *
+* The latest version can always be found at http://www.simplemachines.org.        *
+**********************************************************************************/
 
 if (!defined('SMF'))
 	die('Hacking attempt...');
@@ -67,6 +80,8 @@ function Arcade()
 		'vbSessionStart' => array('Submit-v3arcade.php', 'ArcadeVbStart'),
 		'vbPermRequest' => array('Submit-v3arcade.php', 'ArcadeVbPermRequest'),
 		'vbBurn' => array('ArcadeGame.php', 'ArcadeSubmit'),
+		// Silverlight Submit
+		'slScore' => array('ArcadeSilver.php', 'ArcadeSilverScore'),
 	);
 
 	if (empty($modSettings['arcadeArenaEnabled']))
@@ -129,8 +144,8 @@ function loadArcade($mode = 'normal', $index = '')
 	if (!empty($arcade_version))
 		return;
 
-	$arcade_version = '2.5';
-	$arcade_lang_version = '2.5';
+	$arcade_version = '2.5 RC1';
+	$arcade_lang_version = '2.5 RC1';
 
 	$context['arcade'] = array();
 	require_once($sourcedir . '/Subs-Arcade.php');
